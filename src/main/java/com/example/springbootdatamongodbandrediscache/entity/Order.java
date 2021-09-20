@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -17,6 +19,7 @@ import java.util.List;
 @Builder
 public class Order {
 
+  @CreatedDate
   private Date date;
 
   @Id
@@ -25,6 +28,9 @@ public class Order {
   private List<ProductOrderDetail> productDetails;
 
   private double totalPayment;
+
+  @Version
+  private Long version;
 
   @Data
   @NoArgsConstructor
