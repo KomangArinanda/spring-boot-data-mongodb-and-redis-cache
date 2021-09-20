@@ -3,8 +3,11 @@ package com.gdn.springdatamongodb;
 import com.gdn.springdatamongodb.entity.Order;
 import com.gdn.springdatamongodb.repository.OrderRepository;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -12,6 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import redis.embedded.RedisServer;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,6 +38,11 @@ class ReportControllerIntegrationTest {
 
   @Autowired
   private OrderRepository orderRepository;
+
+  @Autowired
+  private RedisProperties redisProperties;
+
+  private RedisServer redisServer;
 
   @Test
   void create_productNotExists() throws Exception {
@@ -84,5 +93,19 @@ class ReportControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.[1].name", Matchers.is(PRODUCT_NAME_1)))
         .andExpect(MockMvcResultMatchers.jsonPath("$.[1].quantity", Matchers.is(9)))
         .andExpect(MockMvcResultMatchers.jsonPath("$.[1].sales", Matchers.is(90_000D)));
+  }
+
+  @BeforeEach
+  void setUp() {
+    redisServer = RedisServer.builder()
+        .port(redisProperties.getPort())
+        .setting("maxmemory 128M")
+        .build();
+    redisServer.start();
+  }
+
+  @AfterEach
+  void tearDown() {
+    redisServer.stop();
   }
 }

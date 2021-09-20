@@ -6,8 +6,10 @@ import com.gdn.springdatamongodb.repository.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -15,6 +17,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import redis.embedded.RedisServer;
 
 import java.util.Collections;
 
@@ -31,6 +34,11 @@ class OrderControllerIntegrationTest {
 
   @Autowired
   private ProductRepository productRepository;
+
+  @Autowired
+  private RedisProperties redisProperties;
+
+  private RedisServer redisServer;
 
   @Test
   void create() throws Exception {
@@ -86,9 +94,19 @@ class OrderControllerIntegrationTest {
             .isBadRequest());
   }
 
+  @BeforeEach
+  void setUp() {
+    redisServer = RedisServer.builder()
+        .port(redisProperties.getPort())
+        .setting("maxmemory 128M")
+        .build();
+    redisServer.start();
+  }
+
   @AfterEach
   void tearDown() {
     productRepository.deleteAll();
     orderRepository.deleteAll();
+    redisServer.stop();
   }
 }
