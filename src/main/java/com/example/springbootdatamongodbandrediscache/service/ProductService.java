@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
 
+  ProductResponse delete(String productId);
+
   Page<ProductResponse> getAll(Pageable pageable);
 
   ProductResponse save(SaveProductRequest request);

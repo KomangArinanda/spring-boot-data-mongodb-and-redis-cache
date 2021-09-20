@@ -20,6 +20,16 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
+  public ProductResponse delete(String productId) {
+    Product product = productRepository.findById(productId)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid productId: " + productId));
+
+    productRepository.deleteById(productId);
+
+    return toProductResponse(product);
+  }
+
+  @Override
   public Page<ProductResponse> getAll(Pageable pageable) {
     return productRepository.findAll(pageable)
         .map(this::toProductResponse);

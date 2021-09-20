@@ -28,8 +28,8 @@ public class ProductController {
   }
 
   @DeleteMapping(value = "/{productId}")
-  public String delete(@PathVariable String productId) {
-    return "delete";
+  public ProductResponse delete(@PathVariable String productId) {
+    return productService.delete(productId);
   }
 
   @GetMapping
