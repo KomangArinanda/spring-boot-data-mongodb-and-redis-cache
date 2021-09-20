@@ -2,6 +2,7 @@ package com.example.springbootdatamongodbandrediscache.web.controller;
 
 import com.example.springbootdatamongodbandrediscache.service.ProductService;
 import com.example.springbootdatamongodbandrediscache.web.request.SaveProductRequest;
+import com.example.springbootdatamongodbandrediscache.web.request.UpdateProductRequest;
 import com.example.springbootdatamongodbandrediscache.web.response.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,7 +44,8 @@ public class ProductController {
   }
 
   @PutMapping(value = "/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public String update(@PathVariable String productId) {
-    return "update";
+  public ProductResponse update(@PathVariable String productId, @RequestBody UpdateProductRequest request) {
+    request.setProductId(productId);
+    return productService.update(request);
   }
 }

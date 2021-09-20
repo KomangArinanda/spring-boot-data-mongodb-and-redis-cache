@@ -4,6 +4,7 @@ import com.example.springbootdatamongodbandrediscache.entity.Product;
 import com.example.springbootdatamongodbandrediscache.repository.ProductRepository;
 import com.example.springbootdatamongodbandrediscache.service.ProductService;
 import com.example.springbootdatamongodbandrediscache.web.request.SaveProductRequest;
+import com.example.springbootdatamongodbandrediscache.web.request.UpdateProductRequest;
 import com.example.springbootdatamongodbandrediscache.web.response.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,20 @@ public class ProductServiceImpl implements ProductService {
   public ProductResponse save(SaveProductRequest request) {
     Product savedProduct = productRepository.save(toProduct(request));
     return toProductResponse(savedProduct);
+  }
+
+  @Override
+  public ProductResponse update(UpdateProductRequest request) {
+    Product product = productRepository.findById(request.getProductId())
+        .orElseThrow(() -> new IllegalArgumentException("Invalid productId: " + request.getProductId()));
+
+    product.setColors(request.getColors());
+    product.setPrice(request.getPrice());
+    product.setName(request.getName());
+
+    Product updatedProduct = productRepository.save(product);
+
+    return toProductResponse(updatedProduct);
   }
 
   private Product toProduct(SaveProductRequest request) {
