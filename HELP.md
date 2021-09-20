@@ -1,21 +1,48 @@
 # Getting Started
 
-### Reference Documentation
+### Entity:
 
-For further reference, please consider the following sections:
+#### Product -> collection products
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.5.4/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.5.4/maven-plugin/reference/html/#build-image)
-* [Spring Data MongoDB](https://docs.spring.io/spring-boot/docs/2.5.4/reference/htmlsingle/#boot-features-mongodb)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.5.4/reference/htmlsingle/#boot-features-developing-web-applications)
+* list colors
+* date createdDate
+* string id
+* date lastModifiedDate
+* string name
+* double price
+* int stock
+* long version
 
-### Guides
+#### Order -> collection orders
 
-The following guides illustrate how to use some features concretely:
+* date date
+* string id
+* list productDetails
+* double totalPayment
+* long version
 
-* [Accessing Data with MongoDB](https://spring.io/guides/gs/accessing-data-mongodb/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
+#### ProductOrderDetail
+
+* string color
+* string id
+* string name
+* double price
+* int quantity
+
+### API Specification:
+
+#### Product Controller
+
+* GET /products?page=0,size=10
+* POST /products
+* PUT /products/{productId}
+* DELETE /products/{productId}
+
+#### Order Controller
+
+* POST /orders
+
+#### Report Controller
+
+* GET /reports
 
