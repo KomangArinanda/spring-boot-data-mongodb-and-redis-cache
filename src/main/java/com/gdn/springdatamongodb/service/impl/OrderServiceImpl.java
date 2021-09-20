@@ -8,6 +8,7 @@ import com.gdn.springdatamongodb.service.OrderService;
 import com.gdn.springdatamongodb.web.request.order.CreateOrderRequest;
 import com.gdn.springdatamongodb.web.response.order.OrderResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,8 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-//  @Transactional
+  @CacheEvict(cacheNames = "report", allEntries = true)
+  //  @Transactional
   public OrderResponse createOrder(List<CreateOrderRequest> request) {
     List<Order.ProductOrderDetail> productDetails = toProductOrderDetails(request);
     double totalPayment = productDetails.stream()
