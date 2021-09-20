@@ -4,6 +4,8 @@ import com.gdn.springdatamongodb.service.ProductService;
 import com.gdn.springdatamongodb.web.request.product.SaveProductRequest;
 import com.gdn.springdatamongodb.web.request.product.UpdateProductRequest;
 import com.gdn.springdatamongodb.web.response.product.ProductResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,8 +33,9 @@ public class ProductController {
   }
 
   @GetMapping
-  public List<ProductResponse> getAll() {
-    return productService.getAll();
+  public Page<ProductResponse> getAll(@RequestParam(defaultValue = "0") Integer page,
+      @RequestParam(defaultValue = "10") Integer size) {
+    return productService.getAll(PageRequest.of(page, size));
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

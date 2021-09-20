@@ -6,10 +6,11 @@ import com.gdn.springdatamongodb.service.ProductService;
 import com.gdn.springdatamongodb.web.request.product.SaveProductRequest;
 import com.gdn.springdatamongodb.web.request.product.UpdateProductRequest;
 import com.gdn.springdatamongodb.web.response.product.ProductResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -30,11 +31,9 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public List<ProductResponse> getAll() {
-    return productRepository.findAll()
-        .stream()
-        .map(this::toProductResponse)
-        .collect(Collectors.toList());
+  public Page<ProductResponse> getAll(Pageable pageable) {
+    return productRepository.findAll(pageable)
+        .map(this::toProductResponse);
   }
 
   @Override

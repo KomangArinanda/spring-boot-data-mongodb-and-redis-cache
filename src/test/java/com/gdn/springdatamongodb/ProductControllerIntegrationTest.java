@@ -69,7 +69,7 @@ class ProductControllerIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status()
             .isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.is(PRODUCT_NAME_1)));
+        .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].name", Matchers.is(PRODUCT_NAME_1)));
   }
 
   @Test
