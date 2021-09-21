@@ -89,3 +89,10 @@ https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
     }
 }
 ])
+
+## Redis Command
+Get all keys
+> KEYS *
+
+Get value by key
+> GET "report::SimpleKey []"
