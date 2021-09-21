@@ -1,6 +1,7 @@
-package com.example.springbootdatamongodbandrediscache.repository;
+package com.example.springbootdatamongodbandrediscache.repository.impl;
 
 import com.example.springbootdatamongodbandrediscache.entity.Product;
+import com.example.springbootdatamongodbandrediscache.repository.ProductRepositoryCustom;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

@@ -46,3 +46,46 @@
 
 * GET /reports
 
+MongoDB Aggregation to generate the report:
+
+https://docs.mongodb.com/manual/reference/operator/aggregation/unwind/
+> db.getCollection('orders').aggregate([{$unwind:"$productDetails"}])
+
+https://docs.mongodb.com/manual/reference/operator/aggregation/group/
+https://docs.mongodb.com/manual/reference/operator/aggregation/first/
+https://docs.mongodb.com/manual/reference/operator/aggregation/sum/
+> db.getCollection('orders').aggregate([
+{
+    $unwind:"$productDetails"
+},
+{
+    $group:{
+        _id:"$productDetails._id",
+        name: {$first:"$productDetails.name"},
+        id: {$first:"$productDetails._id"},
+        sales: { $sum: { $multiply: [ "$productDetails.price", "$productDetails.quantity" ] } },
+        quantity: { $sum : "$productDetails.quantity"}
+    }
+}
+])
+
+https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
+> db.getCollection('orders').aggregate([
+{
+    $unwind:"$productDetails"
+},
+{
+    $group:{
+        _id:"$productDetails._id",
+        name: {$first:"$productDetails.name"},
+        id: {$first:"$productDetails._id"},
+        sales: { $sum: { $multiply: [ "$productDetails.price", "$productDetails.quantity" ] } },
+        quantity: { $sum : "$productDetails.quantity"}
+    }
+},
+{
+    $sort : { 
+        sales : -1
+    }
+}
+])
