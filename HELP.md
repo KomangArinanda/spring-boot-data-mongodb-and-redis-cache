@@ -99,3 +99,8 @@ Get value by key
 
 Flush All entry
 > FLUSHALL
+
+Assignment:
+1. Buat API baru untuk nambah stock
+2. Buat API baru untuk get product detail, gunakan redis cache
+3. Ketika Nambah stock product, update cache product detail
