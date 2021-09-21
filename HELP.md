@@ -96,3 +96,6 @@ Get all keys
 
 Get value by key
 > GET "report::SimpleKey []"
+
+Flush All entry
+> FLUSHALL
