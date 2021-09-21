@@ -8,6 +8,7 @@ import com.example.springbootdatamongodbandrediscache.service.OrderService;
 import com.example.springbootdatamongodbandrediscache.web.request.CreateOrderRequest;
 import com.example.springbootdatamongodbandrediscache.web.response.OrderResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  @Transactional
   public OrderResponse create(List<CreateOrderRequest> request) {
     List<Order.ProductOrderDetail> productDetails = toProductOrderDetails(request);
 
